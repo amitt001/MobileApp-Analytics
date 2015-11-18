@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body_image %}/static/rain.jpg{% endblock %}
+{% block content %}
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+<div class="container-fluid" style="max-width: 600px; margin: 13% auto 10px;border:1px solid black;border-radius:0px;padding-top:20px; padding-bottom:20px;background-color:white;box-shadow: 3px 3px 2px #888888;">
+    <h3 class="text-center">Login</h3><br>
+    <form method="post" action=".">{% csrf_token %}
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" class="form-control" value="{{ form.username.value|default_if_none:"" }}" placeholder="Username"/>                                       
+        </div></br>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}" class="form-control" value="{{ form.password.value|default_if_none:"" }}" placeholder="Password"/>                                        
+        </div></br>
+        <div style="float:center;text-align:center">
+            <input type="submit" class="btn btn-success btn-lg" name="adminlogin" value="Login"/>
+            <input type="hidden" name="next" value="/user/home/"/>
+        </div>
+    </form></br>
+    <a style="float: left;" href="{% url "users:register" %}">Register</a>
+    <a style="float: right;" href="/user/forgot">Need Help?</a>
+</div>  
+
+{% endblock %}

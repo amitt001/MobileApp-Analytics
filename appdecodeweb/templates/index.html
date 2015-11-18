@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block foxie %}/static/images/AppAnnie.png{% endblock %}
+{% block content %}
+<div  class="foxiehome" style="height:60%;">
+	<section class="row">
+		<header class="large-12 columns">
+			<h2 class="txtclr" style="margin-top:7%;">Build better apps.</h2>
+			<div class="txtclr">
+				AppDecode delivers data and insights to succeed in the app economy.
+			</div>
+			<a class="btn btn-danger btn-lg" href="{% url 'users:register' %}" style="margin: 7% 7% 8% 0%;">SIGN UP, ITS FREE</a>
+			<div class="dblock">
+				<p class="din homebrag">Hi</p>
+				<p class="din homebrag">Hi</p>
+				<p class="din homebrag">Hi</p>
+			</div>
+		</header>
+	</section>
+</div>
+<div class="homeads">
+	<div class="btm-mrg">
+		<h3> Market Data</h3>
+		Over 300,000 people choose App Annie as their source of mobile app market data and dashboard tools, with the most comprehensive and accurate data set available on mobile apps.
+	</div>
+	<div class="btm-mrg">
+		<img src="{% static "images/storestats.png" %}" style="float: left;top:25px;margin-right: 10%;" onload="this.width/=2.5;this.onload=null;">
+		<div class="hometext">
+			<h3>Store Stats</h3>
+			<h5>Monitor the app ecosystem and your competitors.</h5>
+			Check hourly or daily top charts as well as ranking history, search keywords and featured placements for millions of apps.
+		</div>
+	</div>
+	<div class="btm-mrg">
+		<img src="{% static "images/appstoreanal.png" %}" style="float: left;top:25px;margin-right: 10%;" onload="this.width/=2.5;this.onload=null;">
+		<div class="hometext">
+			<h3>Store Stats</h3>
+			<h5>Monitor the app ecosystem and your competitors.</h5>
+			Monitor downloads, revenue, reviews, search keywords and more across your entire app portfolio, simply organized in one dashboard and without the need for an SDK.
+		</div>
+	</div>
+	<div class="btm-mrg">
+		<img src="{% static "images/inappanal.png" %}" style="float: left;top:25px;margin-right: 10%;" onload="this.width/=2.5;this.onload=null;">
+		<div class="hometext">
+			<h3>In-App Analytics </h3>
+			<h5>Monitor the usage metrics that matter most for your app business.
+			</h5>
+			Track the health of your user base by adding app usage metrics to your App Analytics dashboard. Instantly surface insights such as whether version updates impact your average session duration, or how active users correlate with revenue.
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="btm-mrg">
+		<img src="{% static "images/audience.png" %}" style="float: left;top:25px;margin-right: 10%;" onload="this.width/=2.5;this.onload=null;">
+		<div class="hometext">
+			<h3>Audience Intelligence</h3>
+			<h5>Detailed data about who is using every major mobile app.</h5>
+			Estimates on user demographics, cross-app adoption, and users' opinions of app quality. Get app-level data for thousands of apps to understand everything from user gender and age to income and education level.
+		</div>
+	</div>
+	<div class="btm-mrg">
+		<img src="{% static "images/usage.png" %}" style="float: left;top:25px;margin-right: 10%;" onload="this.width/=2.5;this.onload=null;">
+		<div class="hometext">
+			<h3>Usage Intelligence</h3>
+			<h5>A revolutionary understanding of mobile app and device usage.</h5>
+			Deep insights into an app's users, engagement, reach and retention. Follow daily, weekly and monthly updates on the apps you care about, broken down by app, device and country.
+		</div>
+	</div>
+	<div class="btm-mrg">
+		<img src="{% static "images/storeint.png"%}" style="float: left;top:25px;margin-right: 10%;" onload="this.width/=2.5;this.onload=null;">
+		<div class="hometext">
+			<h3>Store Intelligence</h3>
+			<h5>Complete app store transparency on every download and dollar.</h5>
+			Unparalleled insight with the most accurate estimates of app sales and revenue performance. Available for millions of apps, hundreds of thousands of companies, 155 countries and over 50 categories.
+		</div>
+	</div>
+</div>
+<div class="panel-footer text-center">
+<nav class="navbar navbar-default navbar-bottom" style="background-color:#101D29;" role="navigation">
+      <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+              <li><a href="#">About us</a></li>
+              <li><a href="#">Blog</a></li>
+          </ul>
+      </div>
+      <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Blog</a></li>
+      </ul>
+  </div>
+  <ul class="nav nav-pills nav-justified">
+      <a href="https://www.facebook.com/bootsnipp"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
+      <a href="https://twitter.com/bootsnipp"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
+      <a href="https://plus.google.com/+Bootsnipp-page"><i id="social-gp" class="fa fa-google-plus-square fa-3x social"></i></a>
+      <a href="mailto:bootsnipp@gmail.com"><i id="social-em" class="fa fa-envelope-square fa-3x social"></i></a>
+  </div>
+  <hr/>
+  <div class="row">
+    <div class="col-lg-12">
+        <ul class="nav nav-pills nav-justified">
+            <li><a href="/">© 2013 Company Name.</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy</a></li>
+        </ul>
+    </div>
+</div>
+</nav>
+</div>
+{% endblock %}
