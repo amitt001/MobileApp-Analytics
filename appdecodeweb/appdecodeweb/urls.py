@@ -22,6 +22,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^user/', include('loginapp.urls', namespace="users")),
+    url(r'^app/', include('userapp.urls', namespace="app")),
     #url(r'^$', 'django.contrib.auth.views.login'),
     #url(r'^logout/$', logout_page),
     #url(r'^accounts/login/$', 'django.contrib.auth.views.login'), # If user is not login it will redirect to login page

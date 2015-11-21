@@ -1,0 +1,9 @@
+{% extends "base.html"  %}
+{% block content %}
+<h3> Welcome, {{ user.username  }}</h3>
+<form method="GET" action=".">
+	<input id="q" type="text" name="q" placeholder="Search app by name or ID..."/>
+	<input class="btn btn-info" type="submit" value="submit"/>
+</form>
+<a href="{% url 'users:logout' %}">Logout</a>
+{% endblock %}

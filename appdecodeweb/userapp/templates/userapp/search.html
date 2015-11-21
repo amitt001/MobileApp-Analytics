@@ -1,0 +1,6 @@
+{% extends "base.html"  %}
+{% block content %}
+{% for r in result %}
+	{{r|linebreaks}}
+{% endfor %}
+{% endblock %}

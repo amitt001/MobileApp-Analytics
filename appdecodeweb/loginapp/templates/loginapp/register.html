@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body_image %}/static/rain.jpg{% endblock %}
+{% block content %}
+
+<div class="container-fluid" style="max-width: 600px; margin: 10% auto 10px;border:1px solid black;border-radius:0px;padding-top:15px; padding-bottom:15px;background-color:white;box-shadow: 3px 3px 2px #888888;">
+	<h3 class="text-center">Sign Up</h3><br>
+	
+	{% if field.errors %}
+	<solid>There is an error in the form. Please try again.</solid>
+	{% endif %}
+
+	<form method="post" action=".">{% csrf_token %}
+		
+		<div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" class="form-control" value="{{ form.username.value|default_if_none:"" }}" placeholder="Username"/>                                       
+        </div></br>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+            <input type="text" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" class="form-control" value="{{ form.email.value|default_if_none:"" }}" placeholder="Email"/>                                       
+        </div></br>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input type="password" name="{{ form.password1.html_name }}" id="{{ form.password1.id_for_label }}" class="form-control" value="{{ form.password1.value|default_if_none:"" }}" placeholder="Password"/>                                        
+        </div></br>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input type="password" name="{{ form.password2.html_name }}" id="{{ form.password2.id_for_label }}" class="form-control" value="{{ form.password2.value|default_if_none:"" }}" placeholder="Password(Repeat)"/>                                        
+        </div></br>
+
+		<input class="btn btn-success" type="submit" value="Register" />
+	</form>
+	<div style="float: right;">
+	<p>Already a user? <a href="{% url "users:login" %}">Login</a></p>
+</div>
+{% endblock %}
