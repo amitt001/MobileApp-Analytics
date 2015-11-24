@@ -26,4 +26,6 @@ def appinfo(request, app_id):
     url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
     resp = requests.get(url)
     result = {} if resp.status_code != 200 else resp.json()
-    return render(request, 'userapp/admin/blank-page.html', {'result': result})
+    #remove underscore from id
+    result['id'] = result.pop('_id')
+    return render(request, 'userapp/admin/index.html', {'result': result})
