@@ -16,6 +16,7 @@ class Search(object):
         self.es = elasticsearch.Elasticsearch()
 
     def search(self, q):
+        """Search apps by name from es index data"""
         try:
             result = self.es.search(index=DB, q=q)
         except elasticsearch.ConnectionError as e:

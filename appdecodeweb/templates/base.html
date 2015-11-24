@@ -18,7 +18,7 @@
         html, body {
             height: 100%;
         }
-        .navbar { margin-bottom:0px !important; }
+        .navbar { margin-bottom:0px !important;}
         .carousel-caption { margin-top:0px !important }
         h3 {
             font-family: GTWalsheimMedium;
@@ -70,31 +70,33 @@
             background-repeat: no-repeat;
             background-size: auto 105%;
             background-position: center top;
-            
+
         }
         .txtclr{color:white;}
         .dblock{ display: block;}
         .din{ display: inline;}
         .homebrag{margin: 0% 25% 0% 0%;}
+        #nvc {
+           color:white;
+        }
     </style>
 </head>
 <body class="loginback">
     <nav class="navbar navbar-inverse" style="background-color: #1F3950">
-      <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>                        
         </button>
-        <a class="navbar-brand" href="/">AppDecode</a>
+        <a id="nvc" class="navbar-brand" href="/">AppDecode</a>
     </div>
 
     <div class="collapse navbar-collapse" id="myNavbar">
 
 
       <ul class="nav navbar-nav">
-        <li ><a href="{% url 'app:home' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li ><a id="nvc" href="{% url 'app:home' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
     <!--
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
@@ -109,10 +111,10 @@
 -->
 </ul>
 <ul class="nav navbar-nav navbar-right" style="background-color:#1C3348">
-    <li><a href="/about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-    <li><a href="/contact"><span class="glyphicon glyphicon-comment"></span> Contact</a></li>
-    <li><a href="{% url 'users:register' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-    <li><a href="{% url 'users:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    <li><a id="nvc" href="/about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+    <li><a id="nvc" href="/contact"><span class="glyphicon glyphicon-comment"></span> Contact</a></li>
+    <li><a id="nvc" href="{% url 'users:register' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+    <li><a id="nvc" href="{% url 'users:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 </ul>
 </div>
 </div>

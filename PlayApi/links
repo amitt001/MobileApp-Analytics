@@ -1,0 +1,14 @@
+APPS BY ID:
+http://localhost:5000/api/get/app/com.imo.android.imoim
+APPS BY COUNT
+http://localhost:5000/api/get/3
+BY CATEGORY RANK
+http://localhost:5000/api/get/category/Communication/1
+BY TOP RANK
+http://localhost:5000/api/get/top/9
+BY COUNTRY
+http://localhost:5000/api/get/app/com.imo.android.imoim/in
+REVIEWS
+http://localhost:5000/api/get/app/reviews/com.whatsapp
+SIMILAR
+http://localhost:5000/api/get/app/similar/com.whatsapp

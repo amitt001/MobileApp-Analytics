@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="text-center" style="font-size: 200%;">
+    {% if uhash %}
+        <h2>Your API key</h2>
+            {{ uhash }}
+    {% else %}
+        <h2>Message</h2>
+        {{ response }}
+    </div>
+    {% endif %}
+
+{% endblock %}

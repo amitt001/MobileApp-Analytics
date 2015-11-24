@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="text-center">Stats</h1>
+<br>
+<div style="margin-left:15px;margin-right:15px;">
+<table class="table table-bordered table-hover">
+    {% if playstats %}
+    {% for head in headers %}
+    <th class="info" style="font-size: 150%;">
+        {{ head }}
+    </th>
+    {% endfor %}
+    {% for stats in playstats %}
+    <tr class="warning" style="font-size: 125%;">
+
+        <td>
+            {{ stats.get('start_time', None).date() }}
+            {{ stats.get('start_time', None).time().strftime("%H:%M") }}
+        </td>
+        <td>
+            {{ stats.get('finish_time', None).date() }}
+            {{ stats.get('finish_time', None).time().strftime("%H:%M") }}
+        </td>
+        <td>
+            {{ stats.get('finish_reason', None).capitalize() }}
+        </td>
+        <td>
+            {{ stats.get('downloader/response_bytes', 0)/1000000.0 }}
+        </td>
+        <td>
+            {{ stats.get('item_scraped_count', None) }}
+        </td>
+        <td>
+            {% if stats.get('finish_reason', None) == 'finished' %}
+                Success
+            {% else %}
+                Fail
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+
+    {% else %}
+    <p>No stats logs</p>
+    {% endif %}
+
+</table>
+{% endblock %}

@@ -1,0 +1,102 @@
+About:
+
+This API is build using Flask framework of Python language. By default it runs on port 5000 on the small test server provided by Flask. On production machine 'debug=True' should be disabled and frameworks like twisted, tornado should be used for serving the multiple concurrent request. 
+
+Databases: MongoDB, Redis as cache database.
+Developed on Python 2.7.9 but with little to no changes it will work with Python 3.4 also.
+
+------------------------------------------------------------------------------------------
+
+API methods and Error codes:
+
+1. Index page: http://85.25.152.109:5000/
+Home: Two buttons: Admin Login and new user Signup
+
+2. SIGNUP: http://85.25.152.109:5000/api/signup/newuser
+This is a must step for every user of the API. Through this step a unique API key in generted for each user. Use of this API key is necessary with each request about apps. Its after the admins approval you will get your key. 
+
+3. Admin Login: http://85.25.152.109:5000/api/signup/admin
+Admin Login. Only an approved user can see login. After login user request that are awaiting approval are presented. Admin can also see the spider stats.
+
+------------------------------------------------------------------------------------------
+API Applications:
+
+
+1. Get info about apps by ID: 
+
+To get information about the app with id 'app_id'. This returns a json response with all the available information about the app on play store in the nested josn structure.
+
+For ex:
+http://85.25.152.109:5000/api/get/app/com.whatsapp/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+
+2. APPS BY COUNT: /api/get/n_apps/key/api_key
+This API call returns (n_apps - n_apps%10) to n_apps apps. 
+
+For ex: Below request return 1-10 apps data
+http://85.25.152.109:5000/api/get/10/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+3. Apps by CATEGORY RANK: /api/get/category/App_category/Rank/app_type/key/api_key
+It returns the apps with category 'App_category' and category rank 'Rank'.
+
+For ex
+http://85.25.152.109:5000/api/get/category/Communication/1/paid/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+returns apps in category Communication with category rank = 1 and app type = paid
+
+4. Apps by TOP RANK: /api/get/top/Rank/app_type/key/api_key
+Get app with top chart rank = Rank and app type = app_type i.e. 'free' or 'paid'. Top chart apps are those apps that are shown on the Google play home page.
+
+For ex:
+http://85.25.152.109:5000/api/get/top/9/free/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+App with top cart rank = 9 and of type=free (app_type=paid for paid apps)
+
+5. Apps BY COUNTRY: /api/get/app/unique_app_id/country_code/key/api_key
+Get app with id = unique_app_id and crawled info from country country_code.
+
+For ex:
+http://85.25.152.109:5000/api/get/app/com.imo.android.imoim/in/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+It only returns result if app with app id = com.imo.android.imoim and it has been crawled from India in past.
+
+--------------------------------
+
+App Meta Data: Specific data about apps
+
+6. App REVIEWS: /api/get/app/reviews/app_id/key/api_key
+Get the reviews of app with app ID = app_id. This request also returns app ratings, 1,2,3,4,5 star ratngs and count of reviewers.
+
+For ex
+http://85.25.152.109:5000/api/get/app/reviews/com.whatsapp/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+Returns review information of app with id = com.whatsapp i.e. Whatsapp
+
+7. Simmial apps:
+Get similar apps ID
+
+For ex:
+http://85.25.152.109:5000/api/get/app/similar/com.whatsapp/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+8. App's RANK: /api/get/app/rank/app_id/key/test
+Get rank of the app. It includes its category and top chart both the ranks.
+
+For Ex:
+http://85.25.152.109:5000/api/get/app/rank/com.whatsapp/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+9. By App RATINGS: /api/get/app/ratings/app_id/key/api_key
+Get ratings of the app with id = app_id
+
+For Ex:
+http://85.25.152.109:5000/api/get/app/ratings/com.whatsapp/key/24d899d3761c0d60848db2ffc02fda313eecc33e
+
+----------------------------------------------------------------------------------------------
+
+HTTP status codes: (Standard HTTP codes are used with their standard meninges)
+
+200: Success
+201: New resource created
+
+400: Bad Request
+404: Resource doesn't exists
+405: Wrong method call i.e. GET request on POST only method, etc
+

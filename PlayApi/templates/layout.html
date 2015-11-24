@@ -1,0 +1,69 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!--Meta-->
+    <meta charset="UTF-8">
+    <meta lang="en">
+    {% if title %}
+    <title>{{ title }} - ClayPlay API</title>
+    {% else %}
+    <title>ClayPlay API</title>
+    {% endif %}
+    <!--Mobile Friendly-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Boostrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--end-->
+
+    <style>
+    
+    body{
+        <!--background-color: #C6E2EE;//#97CD0C;//#373F46;-->
+    }
+    a.headerlink {
+    color: #A5DF00;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+    }
+    a:hover.headerlink {
+    color: #0080FF;#4183C4;
+    text-decoration: underline;
+    }
+    
+    .header{
+    overflow:hidden; 
+    width: auto; 
+    height: auto; 
+    position: relative;     
+    margin-top:0; padding-top:0; 
+    background-color: #242424;
+ //#F5F5F5;
+    }
+    .editor{
+        padding-top: 10px;    
+    }
+    .wrapper {
+            text-align: center;
+    }
+    .button {
+            position: absolute:
+                top: 50%;
+    }
+    </style>
+</head>
+<body>
+    <div class="header container">
+        <a href="/"><h1 class="text-left" style="display: inline-block;">ClayPlay API</h1></a>
+        <div style="display: inline-block; float: right; padding-right: 100px; padding-top: 20px;">
+            <a class="headerlink" href="/login">Sign Up</a>
+            <a class="headerlink" href="claymotion.in">Contact</a>
+            <a class="headerlink" href="#">About</a>
+        </div>
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+</body>
+</html>

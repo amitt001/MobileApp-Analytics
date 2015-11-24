@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-center">Admin Dashboard</h1><br>
+<div style="float: right;margin-right:20px">
+<form method="POST" action="">
+    <input type="submit" class="btn btn-warning" name="stats" value="Spider Stats">
+</form>
+</div>
+<div style="margin-left:15px;margin-right:15px;">
+    <h3>Requests</h3><br>
+    <table class="table table-bordered table-hover">
+        <th class="success">Date</th>
+        <th class="success">Time</th>
+        <th class="success">Email</th>
+        <th class="success">Status</th>
+        <th class="danger">Approve?</th>
+        {%  if users %}
+            {% for user in users %}
+                <tr class="warning" style="font-size: 125%;">
+                {% for key, val in user.items() %}
+                            {% if '_id' in key %}
+                                <td>{{ val }}</td>
+                            {% elif 'date' in key %}
+                                <td>{{ val.date() }}</td>
+                                <td>{{ val.strftime("%H:%M") }}</td>
+                            {% else %}
+                                <td>{{ val }}</td>
+                            {% endif %}
+                {% endfor %}
+            <td>
+            <div style="display: inline-block;margin-left:10%" align="right">
+                <form method="POST" action="">
+                    <input type="submit" class="btn btn-success btn-sm" name="approve" value="Approve">
+                    <input type="hidden" name="userset" value={{ user._id }}>
+                </form>
+            </div>
+            </br>
+            </td>
+            </tr>
+            {% endfor %}
+
+        {% else %}
+            <h2>No Requests. :)</h2>
+        {% endif %}
+        </table>
+    </div>
+
+{% endblock %}

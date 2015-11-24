@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="text-center">ClayPlay API</h1><br>
+
+<div class="container-fluid" style="max-width: 600px; margin: 0 auto 10px;border:1px solid #9C27B0;border-radius:20px;padding-top:30px; padding-bottom:30px">
+    <form action="" method="POST">
+
+        <input class="form-control input-lg" type="email" name ="email" placeholder="Email" ></br></br>
+        <input class="form-control input-lg" type="password" name ="pass" placeholder="Password (min 4 character long)"></br></br>
+
+        <div style="float:center;text-align:center">
+        <input type="submit" class="btn btn-success btn-lg" name="newsignup" value="Sign up">
+        </div>
+    </form>
+</div>  
+
+{% endblock %}

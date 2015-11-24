@@ -20,6 +20,8 @@ import views
 
 login_forbidden =  user_passes_test(lambda u: u.is_anonymous(), '/user/home')
 
+#(?P<id>REGEXP)
 urlpatterns = [
     url(r'^home/$', views.home, name='home'),
+    url(r'^info/(?P<app_id>[a-zA-Z0-9._]+)/$', views.appinfo, name='info'),
 ]
