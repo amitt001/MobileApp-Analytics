@@ -135,7 +135,7 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div style="font-size:25px;">{{ result.reviewers|last }}</div>
+                                        <div style="font-size:25px;">{{ result.reviewers|last|default_if_none:"-"  }}</div>
                                         <div>Reviews!</div>
                                     </div>
                                 </div>
@@ -157,8 +157,13 @@
                                         <i class="fa fa-tasks fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
+                                        {% if result.topchart_rank.0 != 0 %}
+                                        <div class="huge">{{ result.topchart_rank.0 }}</div>
+                                        <div>Top Chart Rank!</div>
+                                        {% else %}
+                                        <div class="huge">{{ result.category_rank.0|default_if_none:"-" }}</div>
+                                        <div>Category Rank!</div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -179,8 +184,8 @@
                                         <i class="fa fa-shopping-cart fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>New Orders!</div>
+                                        <div class="huge">{{ result.ratings|last|default_if_none:"-"  }}</div>
+                                        <div>Ratings!</div>
                                     </div>
                                 </div>
                             </div>
@@ -201,8 +206,8 @@
                                         <i class="fa fa-support fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
-                                        <div>Support Tickets!</div>
+                                        <small> {{ result.installs|last|default_if_none:"-"  }}</small>
+                                        <div>Installs!</div>
                                     </div>
                                 </div>
                             </div>
@@ -235,6 +240,47 @@
                     </div>
                 </div>
                 <!---->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> About</h3></div>
+                            <div class="panel-body">
+                                <p><b>Version: </b>{{ result.version|default_if_none:"-" }}</p>
+                                <p><b>OS: </b>{{ result.min_osversion|default_if_none:"-" }}</p>
+                                <p><b>Size: </b>{{ result.size|default_if_none:"-" }}</p>
+                                <p><b>Category: </b>{{ result.category.0|default_if_none:"-" }}</p>
+                                <p><b>In-App Purchase: </b>{{ result.inapp_purchase|default_if_none:"No" }}</p>
+                                <p><b>Installs: </b>{{ result.installs.0|default_if_none:"-" }}</p>
+                                <p><b>Is Top Developer: </b>{{ result.istop_developer|default_if_none:"No" }}</p>
+                                <p><b>Publisher: </b>{{ result.developer|default_if_none:"-" }}</p>
+                                <p><b>Update Date: </b>{{ result.app_update_date|default_if_none:"-" }}</p>
+                                <p><b>Description: </b>{{ result.description|default_if_none:result.app_name }}</p>
+                                <p><b>Free: </b>{{ result.is_free|default_if_none:"No" }}</p>
+                                <p><b>Price: </b>{{ result.price|default_if_none:"0.0" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> About</h3></div>
+                            <div class="panel-body">
+                                <p><b>Version: </b>{{ result.version|default_if_none:"-" }}</p>
+                                <p><b>OS: </b>{{ result.min_osversion|default_if_none:"-" }}</p>
+                                <p><b>Size: </b>{{ result.size|default_if_none:"-" }}</p>
+                                <p><b>Category: </b>{{ result.category.0|default_if_none:"-" }}</p>
+                                <p><b>In-App Purchase: </b>{{ result.inapp_purchase|default_if_none:"No" }}</p>
+                                <p><b>Installs: </b>{{ result.installs.0|default_if_none:"-" }}</p>
+                                <p><b>Is Top Developer: </b>{{ result.istop_developer|default_if_none:"No" }}</p>
+                                <p><b>Publisher: </b>{{ result.developer|default_if_none:"-" }}</p>
+                                <p><b>Update Date: </b>{{ result.app_update_date|default_if_none:"-" }}</p>
+                                <p><b>Description: </b>{{ result.description|default_if_none:result.app_name }}</p>
+                                <p><b>Free: </b>{{ result.is_free|default_if_none:"No" }}</p>
+                                <p><b>Price: </b>{{ result.price|default_if_none:"0.0" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- /.row -->
 
                 <div class="row">
