@@ -1,6 +1,23 @@
 {% extends "base.html"  %}
 {% block content %}
-{% for r in result %}
-<a href="{% url 'app:info' r %}">{{r|linebreaks}}</a>
-{% endfor %}
+
+<form method="GET" action=".">
+	<input id="q" type="text" name="q" placeholder="Search app by name or ID..."/>
+	<input class="btn btn-info" type="submit" value="submit"/>
+</form>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search Resuls for "{{ request.GET.q }}"</h3>
+			</div>
+			<div>
+				{% for r in result %}
+				<img src="{{ r.icon }}"/>
+				<a href="{% url 'app:info' r.id %}">{{r.app_name|linebreaks}}</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

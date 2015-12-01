@@ -8,6 +8,7 @@
 
 import re
 import sys
+import json
 import hashlib
 import redis
 import pymongo
@@ -28,16 +29,6 @@ try:
 except:
     print('Error occured while connection to DB. :(')
 
-#redis connection
-#try:
-#    r = redis.Redis(
-#        host='localhost',
-#        port=6379)
-#    print('Redis DB connected and ready to cache. :)\n')
-#except:
-#    print('Redis DB: Connection refused (Is your redis-server running?). :(\n')
-#    sys.exit(-1)
-
 
   ##################
  #FLASK API Routes#
@@ -50,16 +41,7 @@ def index():
             return redirect(url_for('signup', user_type='admin'))
 
         if request.form.get('signupbtn', None) == 'Sign up':
-            return redirect(url_for('signup', user_type='newuser'))
-
-        """
-        if request.form.get('newsignup', None) == 'Sign up':
-            return redirect(url_for('signup'))
-
-        if request.form.get('adminlogin', None) == 'Admin Login':
-            return jsonify({'response': 'Welcome!'})            
-        """
-
+            return redirect(url_for('signup', user_type='newuser'))            
     return render_template("index.html", title="Home")
 
 
@@ -266,6 +248,22 @@ def get_app_meta_rank(appid, key):
     else:
         return jsonify({'response':'Wrong API key. Signup or login to get your API key'}), 401
 
+###############################
+#Get app icon and name from ID#
+###############################
+@app.route('/api/get/app/search/key/<string:key>', methods=['POST'])
+def get_app_icon_name(key):
+    auth = MongoSave().auth(key)
+    appids = json.loads(request.data).get('ids', []) if request.data else []
+    if auth == 1:
+        data = list(collection.find({'_id' : {'$in': appids}}, {'_id':1, 'app_name':1, 'icon': 1}))
+        if data:
+            return jsonify({'response': data}), 200
+        return jsonify({'response': 'error'}), 404
+    else:
+        return jsonify({'response': 'Unauthorized access. Failed.'}), 401
+
+
 @app.route('/api/get/app/ratings/<string:appid>/key/<string:key>')
 def get_app_meta_ratings(appid, key):
     auth = MongoSave().auth(key)
@@ -306,5 +304,5 @@ if __name__ == '__main__':
     #on localhost
     #app.run(debug=True)
     #for server
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
     #app.run(host='0.0.0.0', port=5000, debug=True)
