@@ -24,4 +24,5 @@ login_forbidden =  user_passes_test(lambda u: u.is_anonymous(), '/user/home')
 urlpatterns = [
     url(r'^home/$', views.home, name='home'),
     url(r'^info/(?P<app_id>[a-zA-Z0-9._]+)/$', views.appinfo, name='info'),
+    url(r'^ratings/(?P<app_id>[a-zA-Z0-9._]+)/$', views.ratings, name='ratings'),
 ]

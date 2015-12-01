@@ -5,17 +5,22 @@
 	<input id="q" type="text" name="q" placeholder="Search app by name or ID..."/>
 	<input class="btn btn-info" type="submit" value="submit"/>
 </form>
+
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-lg-10">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title"><i class="fa fa-search fa-fw"></i>Search Resuls for "{{ request.GET.q }}"</h3>
+				<h3 class="panel-title"><i class="fa fa-search fa-fw"></i> Search Resuls for "{{ request.GET.q }}"</h3>
 			</div>
-			<div>
-				{% for r in result %}
-				<img src="{{ r.icon }}"/>
-				<a href="{% url 'app:info' r.id %}">{{r.app_name|linebreaks}}</a>
-				{% endfor %}
+			<div class="panel-body">
+				<div class="list-group">
+					{% for r in result %}
+					
+					<a class="list-group-item" href="{% url 'app:info' r.id %}" ><img src="{{ r.icon }}" align="left" height="5%" width="7%" /><div style="margin-left:10%">{{r.app_name|linebreaks}}</div></a>
+
+					{% endfor %}
+
+				</div>
 			</div>
 		</div>
 	</div>
