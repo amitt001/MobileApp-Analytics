@@ -52,6 +52,15 @@ def appinfo(request, app_id):
     result['id'] = result.pop('_id')
     return render(request, 'userapp/admin/index.html', {'result': result})
 
+
+@login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
+def emotions(request, app_id):
+    """
+    Returns app user's opinion. Rate the opinion as positive/negative
+    """
+    return HttpResponse('hi')
+
+
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
 def ratings(request, app_id):
     """
