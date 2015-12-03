@@ -10,10 +10,13 @@ import re
 import sys
 import json
 import hashlib
+
 import redis
 import pymongo
-from savedb import MongoSave
 from flask import Flask, jsonify, abort, make_response, request, url_for, render_template, redirect
+
+from savedb import MongoSave
+from rate import *
 
 app = Flask(__name__)
 
@@ -298,6 +301,18 @@ def get_app_meta_similar(appid, key):
         return jsonify({'response':'error'}), 404
     else:
         return jsonify({'response':'Wrong API key. Signup or login to get your API key'}), 401
+
+  ##############
+ ##Sentiment###
+##############
+@app.route('/api/get/rate/<string:appid>/key/<string:key>')
+def get_app_review_emotions(appid, key):
+    auth = MongoSave().auth(key)
+    if auth==1:
+        data = rate_opinion(appid)
+        return jsonify({'response': data})
+    else:
+        return jsonify({'response':'Wrong API key'})
 
 
 if __name__ == '__main__':
