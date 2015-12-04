@@ -42,8 +42,8 @@ def get_set_review_rate():
                 n_rev += rev
 
         #calculate the score
-        data_dict['p_percent'] = [ p_score / ( p_score + n_score ) ]
-        data_dict['n_percent'] = [ n_score / ( p_score + n_score ) ]
+        data_dict['p_percent'] = p_score / ( p_score + n_score ) 
+        data_dict['n_percent'] = n_score / ( p_score + n_score )
         #counter with most common 20 words
         data_dict['positive_cloud'] = Counter([w for w in p_rev.lower().split() if w not in stop_words and len(w) > 2]).most_common(20)
         data_dict['negative_cloud'] = Counter([w for w in n_rev.lower().split() if w not in stop_words and len(w) > 2]).most_common(20)
@@ -93,8 +93,8 @@ def get_review_rate(appid):
                 n_rev += rev
 
         #calculate the score
-        data_dict['p_percent'] = [ p_score / ( p_score + n_score ) ]
-        data_dict['n_percent'] = [ n_score / ( p_score + n_score ) ]
+        data_dict['p_percent'] = p_score / ( p_score + n_score )
+        data_dict['n_percent'] = n_score / ( p_score + n_score )
         #counter with most common 20 words
         data_dict['positive_cloud'] = Counter([w for w in p_rev.lower().split() if w not in stop_words and len(w) > 2]).most_common(20)
         data_dict['negative_cloud'] = Counter([w for w in n_rev.lower().split() if w not in stop_words and len(w) > 2]).most_common(20)

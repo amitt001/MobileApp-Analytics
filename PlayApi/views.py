@@ -16,7 +16,7 @@ import pymongo
 from flask import Flask, jsonify, abort, make_response, request, url_for, render_template, redirect
 
 from savedb import MongoSave
-from rate import *
+from rate import rate_opinion
 
 app = Flask(__name__)
 
@@ -244,9 +244,9 @@ def get_app_by_country(appid, countrycode, key):
 def get_app_meta_rank(appid, key):
     auth = MongoSave().auth(key)
     if  auth == 1:
-        data = list(collection.find({'_id' :appid}, {'_id':0,'category_rank':1, 'topchart_rank':1,'crawling_date':1}))
+        data = list(collection.find({'_id' :appid}, {'_id':1,'category_rank':1, 'topchart_rank':1,'crawling_date':1, 'country':1}))
         if data:
-            return jsonify({appid: data[0]}), 200
+            return jsonify(data[0]), 200
         return jsonify({'response':'error'}), 404
     else:
         return jsonify({'response':'Wrong API key. Signup or login to get your API key'}), 401
@@ -305,12 +305,12 @@ def get_app_meta_similar(appid, key):
   ##############
  ##Sentiment###
 ##############
-@app.route('/api/get/rate/<string:appid>/key/<string:key>')
+@app.route('/api/get/app/rate/<string:appid>/key/<string:key>')
 def get_app_review_emotions(appid, key):
     auth = MongoSave().auth(key)
     if auth==1:
-        data = rate_opinion(appid)
-        return jsonify({'response': data})
+        data = rate_opinion.get_review_rate(appid)
+        return jsonify(data if data is not None else {'_id': appid, 'n_percent': None, 'p_percent':None})
     else:
         return jsonify({'response':'Wrong API key'})
 

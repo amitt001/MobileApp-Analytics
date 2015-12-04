@@ -7,10 +7,12 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, render
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy, reverse
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 from userapp.utils import *
 from app_settings import API_URL
-from userapp.utils import search
+from userapp.utils import search, appdata
 
 
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
@@ -30,7 +32,6 @@ def home(request):
             for r in resp.json()['response']:
                 r['id'] = r.pop('_id')
                 response[result.index(r['id'])] = r
-        print response
         return render(request, 
             'userapp/search.html',
             {'result': response})
@@ -46,19 +47,62 @@ def appinfo(request, app_id):
         return information of the selected app
     """
     url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
-    resp = requests.get(url)
-    result = {'_id': app_id} if resp.status_code != 200 else resp.json()
-    #remove underscore from id
-    result['id'] = result.pop('_id')
+    result = appdata.AppProcessor().get_result(url, app_id)
     return render(request, 'userapp/admin/index.html', {'result': result})
 
 
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
-def emotions(request, app_id):
+def sentiment(request, app_id):
     """
     Returns app user's opinion. Rate the opinion as positive/negative
     """
-    return HttpResponse('hi')
+    url = urlparse.urljoin(API_URL, 'api/get/app/rate/' + str(app_id) + '/key/test')
+    result = appdata.AppProcessor().get_result(url, app_id)
+    #For generating wordcloud and saving an image
+    nc, pc = result['negative_cloud'], result['positive_cloud']
+    pstr, nstr = '', ''
+    for c in pc:
+        pstr += (c[0]+' ')*c[1]
+    for c in nc:
+        nstr += (c[0]+' ')*c[1]
+    nw = WordCloud().generate(nstr)
+    pw = WordCloud().generate(pstr)
+    plt.imshow(nw)
+    plt.axis('off')
+    plt.savefig('userapp/neg.png')
+    plt.imshow(pw)
+    plt.axis('off')
+    plt.savefig('userapp/pos.png')
+    return render(request, 'userapp/admin/senti.html', {'result': result})
+
+
+@login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
+def app_rank(request, app_id):
+    """
+    return the app rank history. Rank for different countries.
+    Rightnow it is only for India
+    """
+    url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
+    result = appdata.AppProcessor().get_result(url, app_id)
+    return render(request, 'userapp/admin/apprank.html', {'result': result})
+
+
+  ####################
+ #Plotting EndPoints#
+####################
+
+@login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
+def sentiment_bar(request, app_id):
+    """Bar graph of sentiment percentage +ve and -ve"""
+    url = urlparse.urljoin(API_URL, 'api/get/app/rate/' + str(app_id) + '/key/test')
+    result = appdata.AppProcessor().get_result(url, app_id)
+    print result
+    bar_chart = pygal.Bar(height=300, width=400)
+    bar_chart.title = "Sentiments"
+    lower, params = [result['n_percent']*100, result['p_percent']*100], ["Positive", "Negative"]
+    bar_chart.add('Percentage(%)', lower)
+    bar_chart.x_labels = params
+    return HttpResponse(bar_chart.render(), content_type='image/svg+xml')
 
 
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
@@ -80,4 +124,24 @@ def ratings(request, app_id):
     #bar_chart.add('higher', higher)
     bar_chart.x_labels = params
     return HttpResponse(bar_chart.render(), content_type='image/svg+xml')
+
+
+@login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
+def rank_plot(request, app_id):
+    url = urlparse.urljoin(API_URL, 'api/get/app/rank/' + str(app_id) + '/key/test')
+    Process = appdata.AppProcessor()
+    result = Process.get_result(url, app_id)
+    ranks = Process.get_ranks()
+
+    #a gap of .10 between major and hide minor
+    date_chart = pygal.Line(x_label_rotation=20, show_minor_y_labels=False)#, y_labels_major_every=)
+    date_chart.x_labels = ranks[2][-20:]
+    #y = range(0, max(ranks[0]) if max(ranks[0])>max(ranks[1]) else max(ranks[1]))
+    #print y
+    #date_chart.y_labels = y
+    date_chart.add("Global", ranks[1][-20:])
+    date_chart.add("Category", ranks[0][-20:])
+    return HttpResponse(date_chart.render(), content_type='image/svg+xml')
+
+
 

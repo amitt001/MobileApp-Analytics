@@ -16,7 +16,7 @@
 				<div class="list-group">
 					{% for r in result %}
 					
-					<a class="list-group-item" href="{% url 'app:info' r.id %}" ><img src="{{ r.icon }}" align="left" height="5%" width="7%" /><div style="margin-left:10%">{{r.app_name|linebreaks}}</div></a>
+					<a class="list-group-item" href="{% url 'app:info' r.id %}" ><img src="{{ r.icon }}" style="float:left;margin-right:3%;" height="5%" width="5%" />{{r.app_name|linebreaks}}</a>
 
 					{% endfor %}
 

@@ -1,3 +1,4 @@
+import os
 import random
 import pickle
 
@@ -53,7 +54,8 @@ def find_features(document):
 
     return [features, flag]
 
-#random.shuffle(featuresets)
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 with open("pickle/documents.pickle", "rb") as documents_f:
     documents = pickle.load(documents_f)
@@ -81,6 +83,9 @@ with open("pickle/sgdcclassifier_classifier.pickle", "rb") as open_file:
 
 with open('pickle/nusvc_classifier.pickle', 'rb') as open_file:
     NuSVC_classifier = pickle.load(open_file)
+
+#Never ever askme what is going on in here. Directory resolution
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.abspath('..')))
 
 voted_classifier = VoteClassifier(
                                 classifier,)

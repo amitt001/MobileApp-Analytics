@@ -13,6 +13,7 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+
 from django.conf.urls import include, url
 from django.contrib.auth.decorators import user_passes_test
 
@@ -24,6 +25,11 @@ login_forbidden =  user_passes_test(lambda u: u.is_anonymous(), '/user/home')
 urlpatterns = [
     url(r'^home/$', views.home, name='home'),
     url(r'^info/(?P<app_id>[a-zA-Z0-9._]+)/$', views.appinfo, name='info'),
-    url(r'^emotions/(?P<app_id>[a-zA-Z0-9._]+)/$', views.emotions, name='emotions'),
+    url(r'^sentiment/(?P<app_id>[a-zA-Z0-9._]+)/$', views.sentiment, name='sentiment'),
+    url(r'^rank/(?P<app_id>[a-zA-Z0-9._]+)/$', views.app_rank, name='rank'),
+    url(r'^sentiment_bar/(?P<app_id>[a-zA-Z0-9._]+)/$', views.sentiment_bar, name='sentiment_bar'),
     url(r'^ratings/(?P<app_id>[a-zA-Z0-9._]+)/$', views.ratings, name='ratings'),
+    url(r'^rank_plot/(?P<app_id>[a-zA-Z0-9._]+)/$', views.rank_plot, name='catrank'),
 ]
+
+
