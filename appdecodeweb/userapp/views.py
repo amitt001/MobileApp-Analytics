@@ -3,12 +3,11 @@ import requests
 import urlparse
 
 import pygal
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, render
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy, reverse
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
 
 from userapp.utils import *
 from app_settings import API_URL
@@ -56,23 +55,13 @@ def sentiment(request, app_id):
     """
     Returns app user's opinion. Rate the opinion as positive/negative
     """
-    url = urlparse.urljoin(API_URL, 'api/get/app/rate/' + str(app_id) + '/key/test')
+    #basic app info
+    url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
     result = appdata.AppProcessor().get_result(url, app_id)
-    #For generating wordcloud and saving an image
-    nc, pc = result['negative_cloud'], result['positive_cloud']
-    pstr, nstr = '', ''
-    for c in pc:
-        pstr += (c[0]+' ')*c[1]
-    for c in nc:
-        nstr += (c[0]+' ')*c[1]
-    nw = WordCloud().generate(nstr)
-    pw = WordCloud().generate(pstr)
-    plt.imshow(nw)
-    plt.axis('off')
-    plt.savefig('userapp/neg.png')
-    plt.imshow(pw)
-    plt.axis('off')
-    plt.savefig('userapp/pos.png')
+    surl = urlparse.urljoin(API_URL, 'api/get/app/rate/' + str(app_id) + '/key/test')
+    static_dir = settings.STATICFILES_DIRS[0]
+    Process = appdata.AppProcessor()
+    Process.word_cloud(app_id, surl, static_dir)
     return render(request, 'userapp/admin/senti.html', {'result': result})
 
 
@@ -97,9 +86,15 @@ def sentiment_bar(request, app_id):
     url = urlparse.urljoin(API_URL, 'api/get/app/rate/' + str(app_id) + '/key/test')
     result = appdata.AppProcessor().get_result(url, app_id)
     print result
-    bar_chart = pygal.Bar(height=300, width=400)
+    bar_chart = pygal.Bar(height=300, width=400, show_y_labels=False, 
+        show_legend=False)
     bar_chart.title = "Sentiments"
-    lower, params = [result['n_percent']*100, result['p_percent']*100], ["Positive", "Negative"]
+    
+    try:
+        lower, params = [result['n_percent']*100, result['p_percent']*100], ["Positive", "Negative"]
+    except TypeError as err:
+        lower, params = [], ["Positive", "Negative"]
+
     bar_chart.add('Percentage(%)', lower)
     bar_chart.x_labels = params
     return HttpResponse(bar_chart.render(), content_type='image/svg+xml')
