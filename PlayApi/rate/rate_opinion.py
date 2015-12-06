@@ -71,7 +71,7 @@ def get_review_rate(appid):
     """
     for data in db[config.REVIEW_COLLECTION].find({'_id': appid}, {'latest_reviews':1, 'crawling_date':1}):
         #for data in db.snapv2_0.find({},{'latest_reviews':1, 'crawling_date': 1}):
-        if len(data['latest_reviews']) < 40:
+        if len(data['latest_reviews']) < 35:
             continue
         data_dict = {}
         data_dict['_id'] = data['_id']

@@ -85,7 +85,6 @@ def sentiment_bar(request, app_id):
     """Bar graph of sentiment percentage +ve and -ve"""
     url = urlparse.urljoin(API_URL, 'api/get/app/rate/' + str(app_id) + '/key/test')
     result = appdata.AppProcessor().get_result(url, app_id)
-    print result
     bar_chart = pygal.Bar(height=300, width=400, show_y_labels=False, 
         show_legend=False)
     bar_chart.title = "Sentiments"
@@ -93,6 +92,7 @@ def sentiment_bar(request, app_id):
     try:
         lower, params = [result['n_percent']*100, result['p_percent']*100], ["Positive", "Negative"]
     except TypeError as err:
+        print (err)
         lower, params = [], ["Positive", "Negative"]
 
     bar_chart.add('Percentage(%)', lower)
