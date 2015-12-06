@@ -1,0 +1,60 @@
+{% extends 'userapp/admin/adminbase.html' %}
+{% block content %}
+<style type="text/css">
+	#myModal .modal-dialog  {
+		width:900px;
+		overflow:hidden;
+	}
+
+</style>
+<div class="row">
+	{% for r in result.similar %}
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title" style="display:inline;"><i class="fa fa-bar-chart-o fa-fw"></i>
+					<a href="{% url 'app:info' r %}">{{ r }}</a>
+				</h3>
+				<button id="{{ r }}" type="button" style="float:right;" class="btn btn-info btn-sm" data-toggle="modal" onclick="reply_click(this.id)" data-target="#myModal">Expand</button>
+			</div>
+			<div class="panel-body" id="myDiv" >
+				<figure >
+					<embed type="image/svg+xml" src="{% url 'app:catrank' r %}"/>
+				</figure>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Plot</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<figure >
+						<embed id="mod-data" type="image/svg+xml"/>
+					</figure></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript">
+		function reply_click(clicked_id){
+			var graph = document.getElementById('mod-data');
+			var source = "{% url 'app:catrank' 'id' %}"
+			source = source.replace('id', clicked_id);
+			graph.src = source;
+		};
+	</script>
+	{% endblock %}

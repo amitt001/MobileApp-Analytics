@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block foxie %}/static/images/AppAnnie.png{% endblock %}
+{% block content %}
+<div  class="foxiehome" style="height:100%;">
+	<div align="left" style="margin-left:5%;color:red;">
+		<p style="font-size:1000%;">4o4</p>
+		<h2>Sorry, no data available for <div id="appid"></div></h2>
+		<button class="btn btn-warning btn-lg" onclick="goBack()">&lt;-Back</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	function goBack() {
+		window.history.back();
+	}
+
+	var getSegment = function (url, index) {
+		return url.replace(/^https?:\/\//, '').split('/')[index];
+	}
+	document.getElementById('appid').innerHTML = getSegment(window.location.href, 3);
+</script>
+{% endblock %}

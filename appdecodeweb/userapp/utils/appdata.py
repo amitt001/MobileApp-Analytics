@@ -19,16 +19,32 @@ class AppProcessor(object):
     def get_result(self, url, app_id):
         """Gets """
         resp = requests.get(url)
-        self.result = {'_id': app_id} if resp.status_code != 200 else resp.json()
-        self.result['id'] = self.result.pop('_id')
+
+        if resp.status_code == 200:
+            self.result = resp.json()
+            self.result['error'] = 0
+        else:
+            #when no data available for an app set error=1 and check it in frontend
+            self.result = {'_id': app_id, 'error': 1}
+
+        try:
+            self.result['id'] = self.result.pop('_id')
+        except KeyError as ke:
+            """"
+            when _id is not in result and format is like 
+                {'com.whatsapp': {key1:value1, ....}}
+            """
+            self.result['id'] = self.result.keys()[0]
+            self.result.update(self.result.pop(self.result['id']))
         return self.result
 
     def get_ranks(self, country='in'):
         """Process category and topchart rank and returns data"""
-        cat_rank = self.result['category_rank']
-        top_rank = self.result['topchart_rank']
-        country = self.result['country']
-        date = self.result['crawling_date']
+        reskey = self.result.keys()
+        cat_rank = self.result['category_rank'] if 'category_rank' in reskey else []
+        top_rank = self.result['topchart_rank'] if 'category_rank' in reskey else []
+        country = self.result['country'] if 'category_rank' in reskey else []
+        date = self.result['crawling_date'] if 'category_rank' in reskey else []
         ranks = [[], [], []]
         for idx, c in enumerate(country):
             if c =='in':

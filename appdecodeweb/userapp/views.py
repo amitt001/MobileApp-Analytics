@@ -41,12 +41,14 @@ def home(request):
 
 
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
-def appinfo(request, app_id):
+def app_info(request, app_id):
     """
         return information of the selected app
     """
     url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
     result = appdata.AppProcessor().get_result(url, app_id)
+    if result['error']:
+        return render_to_response('404.html')
     return render(request, 'userapp/admin/index.html', {'result': result})
 
 
@@ -75,6 +77,16 @@ def app_rank(request, app_id):
     result = appdata.AppProcessor().get_result(url, app_id)
     return render(request, 'userapp/admin/apprank.html', {'result': result})
 
+
+@login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
+def app_intelligence(request, app_id):
+    """Intelligence:
+    1. Similar apps performance data
+    """
+    url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
+    result = appdata.AppProcessor().get_result(url, app_id)
+    result['similar'] = [r.split('id=')[-1] for r in result['similar']]
+    return render(request, 'userapp/admin/intelligence.html', {'result': result})
 
   ####################
  #Plotting EndPoints#
@@ -109,8 +121,8 @@ def ratings(request, app_id):
     resp = requests.get('http://127.0.0.1:5000/api/get/app/ratings/{}/key/test'.format(app_id) )
     score = resp.json()[app_id]['score'][-1]
     bar_chart = pygal.HorizontalBar(
-        width=300 ,
-        height=200, 
+        width=450 ,
+        height=360, 
         show_x_labels=False, 
         show_legend=False)
     bar_chart.title = "Ratings"
