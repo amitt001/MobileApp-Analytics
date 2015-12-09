@@ -141,7 +141,11 @@ def rank_plot(request, app_id):
     ranks = Process.get_ranks()
 
     #a gap of .10 between major and hide minor
-    date_chart = pygal.Line(x_label_rotation=20, show_minor_y_labels=False)#, y_labels_major_every=)
+    date_chart = pygal.Line( 
+        legend_at_bottom=True,
+        legend_box_size=10,
+        x_label_rotation=20, 
+        show_minor_y_labels=False)#, y_labels_major_every=)
     date_chart.x_labels = ranks[2][-20:]
     #y = range(0, max(ranks[0]) if max(ranks[0])>max(ranks[1]) else max(ranks[1]))
     #print y
