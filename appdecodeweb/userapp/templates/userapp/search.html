@@ -1,4 +1,12 @@
 {% extends "base.html"  %}
+{% block useraction %}
+<li>
+	<a id="nvc" href="{% url 'users:logout' %}">
+			<span class="glyphicon glyphicon-log-in"></span> Logout
+	</a>
+</li>
+{% endblock %}
+
 {% block content %}
 
 <form method="GET" action=".">

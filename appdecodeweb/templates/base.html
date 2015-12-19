@@ -73,7 +73,7 @@
 
         }
         .txtclr{color:white;}
-        .dblock{ display: block;}
+        .dblock{ display: block; color: yellow;}
         .din{ display: inline;}
         .homebrag{margin: 0% 25% 0% 0%;}
         #nvc {
@@ -113,8 +113,8 @@
 <ul class="nav navbar-nav navbar-right" style="background-color:#1C3348">
     <li><a id="nvc" href="/about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
     <li><a id="nvc" href="/contact"><span class="glyphicon glyphicon-comment"></span> Contact</a></li>
-    <li><a id="nvc" href="{% url 'users:register' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-    <li><a id="nvc" href="{% url 'users:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    {% block useraction %}
+    {% endblock %}
 </ul>
 </div>
 </div>
