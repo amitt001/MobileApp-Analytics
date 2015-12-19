@@ -49,7 +49,7 @@ def app_info(request, app_id):
     result = appdata.AppProcessor().get_result(url, app_id)
     if result['error']:
         return render_to_response('404.html')
-    return render(request, 'userapp/admin/index.html', {'result': result})
+    return render(request, 'userapp/admin/apphome.html', {'result': result})
 
 
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
@@ -64,7 +64,7 @@ def sentiment(request, app_id):
     static_dir = settings.STATICFILES_DIRS[0]
     Process = appdata.AppProcessor()
     Process.word_cloud(app_id, surl, static_dir)
-    return render(request, 'userapp/admin/senti.html', {'result': result})
+    return render(request, 'userapp/admin/sentiment.html', {'result': result})
 
 
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
