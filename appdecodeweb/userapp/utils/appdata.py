@@ -16,8 +16,11 @@ class AppProcessor(object):
     def __init__(self):
         self.result = {}
 
-    def get_result(self, url, app_id):
-        """Gets """
+    def get_result(self, url, app_id=""):
+        """
+        General method that GETs the result from API when
+        an AppID is passed
+        """
         resp = requests.get(url)
 
         if resp.status_code == 200:
@@ -33,6 +36,7 @@ class AppProcessor(object):
             """"
             when _id is not in result and format is like 
                 {'com.whatsapp': {key1:value1, ....}}
+            in case of similar apps api request
             """
             self.result['id'] = self.result.keys()[0]
             self.result.update(self.result.pop(self.result['id']))
@@ -52,6 +56,15 @@ class AppProcessor(object):
                 ranks[1].append(top_rank[idx] if top_rank[idx] else None)
                 ranks[2].append('-'.join(date[idx].split()[1:4]))
         return ranks
+
+    def get_top_cat(self, url, category, country='in'):
+        """Get top apps both free and paid from a category"""
+        result = {}
+        if category.lower() in ['communication', 'Action']:
+            resp = requests.get(url)
+            if resp.status_code == 200:
+                result = resp.json()['response']
+        return result
 
     def word_cloud(self, app_id, url, static_dir):
         """Generates a word cloud PNG image and save 

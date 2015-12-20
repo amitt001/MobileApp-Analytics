@@ -239,6 +239,39 @@ def get_app_by_country(appid, countrycode, key):
   ##############
  #APP METADATA#
 ##############
+@app.route('/api/get/top/category/<string:category>/<string:app_type>/key/<string:key>')
+@app.route('/api/get/top/category/<string:category>/<string:app_type>/<string:country>/key/<string:key>')
+def get_top_cat(category, app_type, key, country='in'):
+    """
+    Returns the top app of the category from a given country
+    default country=in for india. Considers latest rank only
+    """
+
+    bol_val = True if app_type == 'free' else False
+    data = list(collection.find({
+        'category': category.capitalize(), 
+        'is_free': bol_val, 
+        'category_rank':1}, 
+        {
+            '_id':1, 
+            'app_name':1,
+            'category_rank':1,
+            'country':1
+        }))
+
+    result = {}
+    for d in data:
+        try:
+            idx = d['country'][::-1].index(country)+1
+        except:
+            break
+        if d['category_rank'][-idx] == 1:
+            result.update(d)
+            result.pop('category_rank')
+            result.pop('country')
+            break
+    return jsonify({'response': result}), 200
+
 
 @app.route('/api/get/app/rank/<string:appid>/key/<string:key>')
 def get_app_meta_rank(appid, key):

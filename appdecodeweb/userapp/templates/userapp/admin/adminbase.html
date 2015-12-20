@@ -79,6 +79,9 @@
                     <li>
                         <a href="{% url 'app:sentiment' result.id %}"><i class="fa fa-fw fa-desktop"></i> Reviews</a>
                     </li>
+                    <li>
+                        <a href="{% url 'app:analytics' app_id=result.id category=result.category.0 %}"><i class="fa fa-fw fa-desktop"></i> Analytics</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

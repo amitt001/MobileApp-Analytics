@@ -43,10 +43,22 @@ def home(request):
 @login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
 def app_info(request, app_id):
     """
-        return information of the selected app
+        Return information of the selected app.
+        In try block
+        Processing to get latest top chart and category rank from india
+        if top_chart rank = 0 for latest crawl get second last crawl value
     """
+    country = 'in'
     url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
     result = appdata.AppProcessor().get_result(url, app_id)
+    try:
+        idx = -(result['country'][::-1].index(country)+1)
+        result['category_rank'] = [result['category_rank'][idx]]
+        result['topchart_rank'] = [result['topchart_rank'][idx]]
+    except ValueError as err:
+        print(err)
+        pass
+    print result['category_rank']
     if result['error']:
         return render_to_response('404.html')
     return render(request, 'userapp/admin/apphome.html', {'result': result})
@@ -88,6 +100,17 @@ def app_intelligence(request, app_id):
     result['similar'] = [r.split('id=')[-1] for r in result['similar']]
     return render(request, 'userapp/admin/intelligence.html', {'result': result})
 
+@login_required(login_url=reverse_lazy('users:login'), redirect_field_name=None)
+def analytics(request, app_id, category):
+    """General app analytics details"""
+    result = {}
+    for typ in ['free', 'paid']:
+        url = urlparse.urljoin(API_URL, 'api/get/top/category/' + str(category).capitalize() + '/{}/key/test').format(typ)
+        result['{}'.format(typ)] = appdata.AppProcessor().get_top_cat(url, category)
+    result['id'] = app_id
+    result['category'] = [category]
+    return render(request, 'userapp/admin/analytics.html', {'result': result})
+    
   ####################
  #Plotting EndPoints#
 ####################
@@ -153,6 +176,3 @@ def rank_plot(request, app_id):
     date_chart.add("Global", ranks[1][-20:])
     date_chart.add("Category", ranks[0][-20:])
     return HttpResponse(date_chart.render(), content_type='image/svg+xml')
-
-
-
