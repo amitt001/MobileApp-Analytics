@@ -1,0 +1,83 @@
+{% extends 'userapp/admin/adminbase.html' %}
+{% block content %}
+
+<div class="row">
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-primary">
+			<a href="{% url 'app:info' result.free.id %}">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<img width="60%" height="60%" src="{{ result.free.icon }}"/>
+						</div>
+						<div class="col-xs-6 text-right">
+							<div style="font-size:15px;">{{ result.free.app_name|default_if_none:""  }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<span class="pull-left">Top Free App in {{ result.category|last }}</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-green">
+			<a href="{% url 'app:info' result.paid.id %}">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<img width="60%" height="60%" src="{{ result.paid.icon }}"/>
+						</div>
+						<div class="col-xs-6 text-right">
+							<div style="font-size:15px;">{{ result.paid.app_name|default_if_none:""  }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<span class="pull-left">Top Paid App in {{ result.category|last }}</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-yellow">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="fa fa-shopping-cart fa-5x"></i>
+					</div>
+					<div class="col-xs-6 text-right">
+						<div class="huge">{{ result.ratings|last|default_if_none:"-"  }}</div>
+					</div>
+				</div>
+			</div>
+			<a href="#">
+				<div class="panel-footer">
+					<span class="pull-left">Ratings</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-6">
+		<div class="panel panel-red">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-xs-6">
+						<i class="fa fa-support fa-5x"></i>
+					</div>
+					<div class="col-xs-6 text-right">
+						<small> {{ result.installs|last|default_if_none:"-"  }}</small>
+					</div>
+				</div>
+			</div>
+			<a href="#">
+				<div class="panel-footer">
+					<span class="pull-left">Installs</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

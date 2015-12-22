@@ -107,6 +107,10 @@ def analytics(request, app_id, category):
     for typ in ['free', 'paid']:
         url = urlparse.urljoin(API_URL, 'api/get/top/category/' + str(category).capitalize() + '/{}/key/test').format(typ)
         result['{}'.format(typ)] = appdata.AppProcessor().get_top_cat(url, category)
+    url = urlparse.urljoin(API_URL, 'api/get/app/' + str(app_id) + '/key/test')
+    data = appdata.AppProcessor().get_result(url, app_id)
+    result['icon'] = data['icon']
+    result['app_name'] = data['app_name']
     result['id'] = app_id
     result['category'] = [category]
     return render(request, 'userapp/admin/analytics.html', {'result': result})
@@ -176,3 +180,5 @@ def rank_plot(request, app_id):
     date_chart.add("Global", ranks[1][-20:])
     date_chart.add("Category", ranks[0][-20:])
     return HttpResponse(date_chart.render(), content_type='image/svg+xml')
+
+

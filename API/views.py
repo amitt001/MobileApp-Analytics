@@ -239,39 +239,6 @@ def get_app_by_country(appid, countrycode, key):
   ##############
  #APP METADATA#
 ##############
-@app.route('/api/get/top/category/<string:category>/<string:app_type>/key/<string:key>')
-@app.route('/api/get/top/category/<string:category>/<string:app_type>/<string:country>/key/<string:key>')
-def get_top_cat(category, app_type, key, country='in'):
-    """
-    Returns the top app of the category from a given country
-    default country=in for india. Considers latest rank only
-    """
-
-    bol_val = True if app_type == 'free' else False
-    data = list(collection.find({
-        'category': category.capitalize(), 
-        'is_free': bol_val, 
-        'category_rank':1}, 
-        {
-            '_id':1, 
-            'app_name':1,
-            'category_rank':1,
-            'country':1
-        }))
-
-    result = {}
-    for d in data:
-        try:
-            idx = d['country'][::-1].index(country)+1
-        except:
-            break
-        if d['category_rank'][-idx] == 1:
-            result.update(d)
-            result.pop('category_rank')
-            result.pop('country')
-            break
-    return jsonify({'response': result}), 200
-
 
 @app.route('/api/get/app/rank/<string:appid>/key/<string:key>')
 def get_app_meta_rank(appid, key):
@@ -346,6 +313,71 @@ def get_app_review_emotions(appid, key):
         return jsonify(data if data is not None else {'_id': appid, 'n_percent': None, 'p_percent':None})
     else:
         return jsonify({'response':'Wrong API key'})
+
+  ##############
+ #Added later#
+#############
+
+@app.route('/api/get/top/category/<string:category>/<string:app_type>/key/<string:key>')
+@app.route('/api/get/top/category/<string:category>/<string:app_type>/<string:country>/key/<string:key>')
+def get_top_cat(category, app_type, key, country='in'):
+    """
+    Returns the top app of the category from a given country
+    default country=in for india. Considers latest rank only
+    """
+
+    bol_val = True if app_type == 'free' else False
+    data = list(collection.find({
+        'category': category.capitalize(), 
+        'is_free': bol_val, 
+        'category_rank':1}, 
+        {
+            '_id':1, 
+            'app_name':1,
+            'category_rank':1,
+            'country':1,
+            'icon':1
+        }))
+    max_cnt = -1
+    """
+    for d in data:
+        if max(d['category_rank'], key=d['category_rank'].count) < max_cnt:
+            data['top'] = d
+    """
+    result = {}
+    for d in data:
+        d['app_name'] = d['app_name'].split(' - ')[0]
+        try:
+            idx = d['country'][::-1].index(country)+1
+        except:
+            break
+        if d['category_rank'][-idx] == 1:
+            result.update(d)
+            result['id'] = result.pop('_id')
+            result.pop('category_rank')
+            result.pop('country')
+            break
+    return jsonify({'response': result}), 200
+
+
+"""
+@app.route('/api/get/app/best/perform/<string:category>/key/<string:key>')
+def get_best_performing_app_in_category(category, key):
+    auth = MongoSave().auth(key)
+    if auth==1:
+        data = list(collection.find({
+                    'category':category.capitalize(), 
+                    '$and':[{'category_rank': 1}, 
+                            {'category_rank': {'$ne':0}}]
+                    },{
+                    '_id':1,
+                    'category_rank':1,
+                    'app_name':1,
+                    'icon':1}))
+        return jsonify()
+    else:
+        return jsonify({'response': 'Wrong API key'})
+"""
 
 
 if __name__ == '__main__':
